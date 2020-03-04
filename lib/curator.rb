@@ -26,7 +26,11 @@ class Curator
     end
   end
 
-  
-
+  def photographs_by_artist
+    @artists.reduce({}) do |photos_by_artist, artist|
+      photos_by_artist[artist] = find_photos_from_artist_id(artist.id)
+      photos_by_artist
+    end
+  end
 
 end

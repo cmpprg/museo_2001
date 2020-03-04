@@ -120,4 +120,6 @@ class CuratorTest < Minitest::Test
 
     assert_equal expected, @curator.photographs_by_artist
   end
+
+  
 end
