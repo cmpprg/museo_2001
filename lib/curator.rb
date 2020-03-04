@@ -33,4 +33,19 @@ class Curator
     end
   end
 
+  def artists_with_multiple_photographs
+    array_of_artists = @artists.find_all do |artist|
+      photographs_by_artist[artist].length > 1
+    end
+    array_of_artists.map{|artist| artist.name}
+  end
+
+  def photographs_taken_by_artist_from(country)
+    @artists.each_with_object([]) do |artist, photographs|
+      if artist.country == country
+      photographs << find_photos_from_artist_id(artist.id)
+      end
+    end.flatten
+  end
+
 end

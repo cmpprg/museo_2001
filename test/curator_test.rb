@@ -121,5 +121,29 @@ class CuratorTest < Minitest::Test
     assert_equal expected, @curator.photographs_by_artist
   end
 
-  
+  def test_it_can_find_an_artist_name_that_has_more_than_one_photo
+    @curator.add_artist(@artist_1)
+    @curator.add_artist(@artist_2)
+    @curator.add_artist(@artist_3)
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+
+    assert_equal ["Diane Arbus"], @curator.artists_with_multiple_photographs
+  end
+
+  def test_it_can_return_an_array_of_photos_taken_by_artists_from_country
+    @curator.add_artist(@artist_1)
+    @curator.add_artist(@artist_2)
+    @curator.add_artist(@artist_3)
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+
+    expected = [@photo_2, @photo_3, @photo_4]
+
+    assert_equal expected, @curator.photographs_taken_by_artist_from("United States")
+  end
 end
