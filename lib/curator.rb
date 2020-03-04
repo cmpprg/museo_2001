@@ -19,7 +19,7 @@ class Curator
 
   def find_artist_by_id(id)
     @artists.find do |artist|
-      artist.id == "1"
+      artist.id == id
     end
   end
 
@@ -60,6 +60,22 @@ class Curator
   def load_artists(file_path)
     CSV.foreach(file_path, headers:true, header_converters: :symbol) do |row|
       add_artist(Artist.new(row))
+    end
+  end
+
+  def photographs_take_between(date_range)
+    @photographs.find_all do |photo|
+      date_range.include?(photo.year.to_i)
+    end
+  end
+
+  def artists_photographs_by_age(artist)
+    photos = find_photos_from_artist_id(artist.id)
+
+    photos.reduce({}) do |photos_by_age, photo|
+      age = photo.year.to_i - artist.born.to_i
+      photos_by_age[age] = photo.name
+      photos_by_age
     end
   end
 end
