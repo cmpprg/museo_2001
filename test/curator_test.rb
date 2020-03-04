@@ -145,5 +145,33 @@ class CuratorTest < Minitest::Test
     expected = [@photo_2, @photo_3, @photo_4]
 
     assert_equal expected, @curator.photographs_taken_by_artist_from("United States")
+    assert_equal [], @curator.photographs_taken_by_artist_from("Argentina")
+  end
+
+  def test_it_can_add_photographs_by_loading_them_from_file
+    @curator.load_photographs('./data/photographs.csv')
+
+    assert_equal 4, @curator.photographs.length
+    assert_instance_of Photograph, @curator.photographs.first
+    assert_instance_of Photograph, @curator.photographs.last
+  end
+
+  def test_it_can_add_artists_by_loading_them_from_file
+    @curator.load_artists('./data/artists.csv')
+
+    assert_equal 6, @curator.artists.length
+    assert_instance_of Artist, @curator.artists.first
+    assert_instance_of Artist, @curator.artists.last
+  end
+
+  def test_it_can_find_photos_take_between
+    @curator.load_photographs('./data/photographs.csv')
+    @curator.load_artists('./data/artists.csv')
+    photo1 = @curator.photographs[0]
+    photo2 = @curator.photographs[1]
+    photo3 = @curator.photographs[2]
+    photo4 = @curator.photographs[3]
+
+    assert_equal [photo1, photo3], @curator.photographs_take_between(1950..1965)
   end
 end
